@@ -12,7 +12,7 @@ const config: Config = {
     require('@tailwindcss/typography'),
   ],
   daisyui: {
-    themes: ["light", "dark", "cupcake"],
+    themes: ["light", "dark", "cupcake", "retro"],
   }
 }
 export default config

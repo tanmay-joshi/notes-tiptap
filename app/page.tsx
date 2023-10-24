@@ -1,11 +1,14 @@
-import Tiptap from "./components/Tiptap";
+import Header from "./components/Header";
+import HomeTabs from "./components/HomeTabs";
+import Tiptapeditor from "./components/TipTapEditor";
 
 
 export default function Home() {
   return (
-    <main>
-      Hello world
-      <Tiptap/>
+    <main className="p-4">
+      <Header/>
+      <Tiptapeditor/>
+      <HomeTabs/>
     </main>
   )
 }
