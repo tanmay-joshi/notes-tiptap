@@ -1,8 +1,6 @@
 import prisma from '@/prisma'
 import { user } from '@prisma/client'
-import { profile } from 'console'
 import type { NextAuthOptions } from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
 import { GoogleProfile } from 'next-auth/providers/google'
 import GoogleProvider from "next-auth/providers/google";
 
@@ -12,20 +10,12 @@ export const options: NextAuthOptions = {
         GoogleProvider({
             clientId: process.env.GOOGLE_ID as string,
             clientSecret: process.env.GOOGLE_SECRET as string,
-            profile(profile) {
-                return {
-                    id: profile.id,
-                    name: profile.name,
-                    email: profile.email,
-                    image: profile.picture,
-                }
-            },
         }),
     ],
     secret: process.env.NEXTAUTH_SECRECT as string,
     callbacks: {
         async signIn({ user, account, profile }) {
-            console.log(user, account, profile)
+            console.log(user, account, profile, `singin`)
                 if (account?.provider === 'google') {
                     const myprofile = profile as GoogleProfile
                     // console.log(myprofile, profile)
@@ -63,7 +53,7 @@ export const options: NextAuthOptions = {
                     else {
                         const accountExist = await prisma.account.count({
                             where: {
-                                providerAccountId: myprofile.id.toString() as string
+                                providerAccountId: user.id.toString() as string
                             }
                         })
 
@@ -100,24 +90,23 @@ export const options: NextAuthOptions = {
         }
         return Promise.resolve(token);
     },
-    async session({ session, token, user }) {
+    async session({ session, token }) {
+        console.log(session, token)
         if (token) {
-            const id = await prisma.user.findFirst({
+            const userp = await prisma.user.findFirst({
                 where: {
-                    account: {
-                        some: {
-                            providerAccountId: token.uid as string
-                        }
+                    username: {
+                        equals: token.uid as string
                     }
                 }
             })
             session.user = {
                 ...session.user,
-                email: id?.id as string
+                email: userp?.id as string,
             }
             // console.log("```````````````````",session, token, user)
         }
-        return Promise.resolve(session);
+        return session;
     }
 }
 }
