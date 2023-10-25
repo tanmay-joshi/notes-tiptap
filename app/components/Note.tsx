@@ -9,7 +9,7 @@ type Props = {
 const Note = (props:Props) => {
   return (
     <div className='rounded-md border-2 border-slate-600 p-4'>
-      <Tiptap id={props.note.id} content={props.note.content} title={props.note.title} />
+      <Tiptap newNote={false} id={props.note.id} content={props.note.content} title={props.note.title} />
     </div>
   )
 }

@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 import Note from './Note'
+import Tiptapeditor from './TipTapEditor'
+import NewNote from './NewNote'
 
 const AllNotes = () => {
 
@@ -17,7 +19,7 @@ const AllNotes = () => {
   return (
     <div className='flex flex-col content-start items-center gap-4 py-4' >
         <h1>All Notes</h1>
-        <button className='btn btn-neutral'>New Note </button>
+        <NewNote/>
         {notes.map((note: any) => (
             <Note note={note} key={note.id}/>
         )
