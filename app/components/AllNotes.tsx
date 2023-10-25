@@ -14,7 +14,7 @@ const AllNotes = () => {
             setNotes(notes)
         }
         getAllNotes()
-    })
+    },[])
 
   return (
     <div className='flex flex-col content-start items-center gap-4 py-4' >

@@ -1,6 +1,5 @@
 import Header from "./components/Header";
 import HomeTabs from "./components/HomeTabs";
-import Tiptapeditor from "./components/TipTapEditor";
 
 
 export default function Home() {
