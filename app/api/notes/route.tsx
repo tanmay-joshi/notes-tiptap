@@ -11,3 +11,16 @@ export const GET =  async (req:NextRequest, res:NextResponse) => {
         })
     return NextResponse.json(allnotes)
 }
+
+export const PUT = async (req:NextRequest, res:NextResponse) => {
+    const body = await req.json()
+    const updatedNote = await prisma.note.update({
+        where: {
+            id: body.id
+        },
+        data: {
+            content: body.content
+        }
+    })
+    return NextResponse.json(updatedNote)
+}
