@@ -2,6 +2,7 @@
 import { JsonValue } from '@prisma/client/runtime/library'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 
@@ -26,9 +27,12 @@ const Tiptap = (props:Props) => {
         router.refresh()
       }
 
+  const {data: session} = useSession()
+  const userid = session?.user?.email
+
   const saveNote = async () => {
     if (!props.newNote) {
-        const res = await fetch('/api/notes', {
+        const res = await fetch(`/api/notes?userid=${userid}`, {
         body: JSON.stringify({
           id: props.id,
           content: editor?.getJSON(),

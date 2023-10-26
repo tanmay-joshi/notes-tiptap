@@ -41,7 +41,7 @@ else if (status === 'authenticated') {
           )}
         </div>
         <div>
-            {activeTab === 0 && <AllNotes/>}
+            {activeTab === 0 && <AllNotes spaceid=''/>}
             {activeTab === 1 && <AllSpaces/>}
         </div>
     </div>

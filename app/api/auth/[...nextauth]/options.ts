@@ -15,7 +15,7 @@ export const options: NextAuthOptions = {
     secret: process.env.NEXTAUTH_SECRECT as string,
     callbacks: {
         async signIn({ user, account, profile }) {
-            console.log(user, account, profile, `singin`)
+            // console.log(user, account, profile, `singin`)
                 if (account?.provider === 'google') {
                     const myprofile = profile as GoogleProfile
                     // console.log(myprofile, profile)
@@ -32,7 +32,7 @@ export const options: NextAuthOptions = {
                                 username: myprofile.email as string,
                             } as user
                         })
-                        console.log(user)
+                        // console.log(user)
                         const meaccount = await prisma.account.create({
                             data:{
                                 providerAccountId: user.id.toString(),
@@ -70,7 +70,7 @@ export const options: NextAuthOptions = {
                                         }
                                     }
                                 })
-                                console.log(meaccount)
+                                // console.log(meaccount)
                                 return Promise.resolve(true)
                             } catch (error) {
                                 Promise.resolve(true)
@@ -91,15 +91,15 @@ export const options: NextAuthOptions = {
         return Promise.resolve(token);
     },
     async session({ session, token }) {
-        console.log(session, token)
         if (token) {
             const userp = await prisma.user.findFirst({
                 where: {
                     username: {
-                        equals: token.uid as string
+                        equals: token.email as string
                     }
                 }
             })
+            // console.log(userp, '``````````userp')
             session.user = {
                 ...session.user,
                 email: userp?.id as string,
