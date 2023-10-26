@@ -11,9 +11,7 @@ type Props = {
   content: JsonValue,
   id: string,
   title: string,
-  newNote: boolean,
   spaceid: string,
-  setnotes?: React.Dispatch<React.SetStateAction<any>>
 }
 
 const Tiptap = (props:Props) => {
@@ -34,7 +32,6 @@ const Tiptap = (props:Props) => {
   const userid = session?.user?.email
 
   const saveNote = async () => {
-    if (!props.newNote) {
         const res = await fetch(`/api/notes?userid=${userid}`, {
         body: JSON.stringify({
           id: props.id,
@@ -48,29 +45,6 @@ const Tiptap = (props:Props) => {
       })
       const updatedNote = await res.json().then(updatenotestate)
       return updatedNote
-    }
-    else if (props.newNote) {
-      // console.log('saving new note', props.spaceid, "``````", userid)
-      const res = await fetch(`/api/notes?userid=${userid}&spaceid=${props.spaceid}`, {
-        body: JSON.stringify({
-          content: editor?.getJSON(),
-          title: title
-        }),
-        headers:{
-          'Content-Type': 'application/json'
-        },
-        method: 'POST'
-      })
-      const newNote = await res.json().then(async()=>{
-        await editor?.commands.setContent(datajson);
-        await setTitle(props.title)
-        await setEditable(false);
-        await editor?.setEditable(false);
-        // router.refresh()
-      })
-      props.setnotes?((prev:note[])=>[...prev, newNote]):null
-      return newNote
-    }
   }
 
   const discardChanges = async () => {
@@ -95,7 +69,6 @@ const Tiptap = (props:Props) => {
   })
 
   const deleteNote = async () => {
-    if (!props.newNote) {
       const res = await fetch(`/api/notes`, {
         body: JSON.stringify({
           id: props.id
@@ -107,12 +80,11 @@ const Tiptap = (props:Props) => {
       })
       const deletedNote = await res.json()
       return deletedNote
-    }
   }
 
   useEffect(()=>{
-    if (props.newNote)  {editor?.setEditable(true); setEditable(true); setTitle("Title")} else {setEditable(false)}
-  },[editor, props.newNote])
+    editor?.setEditable(true); setEditable(true); setTitle("Title")}
+  ,[editor])
 
   return (
     <div className='px-2' >

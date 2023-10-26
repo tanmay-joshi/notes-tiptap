@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import Note from './Note'   
 import NewNote from './NewNote'
 import { useSession } from 'next-auth/react'
+import { note } from '@prisma/client'
 
 type Props = {
     spaceid: string
@@ -9,7 +10,7 @@ type Props = {
 
 const AllNotes = (props:Props) => {
 
-    const [notes, setNotes] = React.useState([])
+    const [notes, setNotes] = React.useState<note[]>([])
     const {data: session} = useSession()
 
     useEffect(() => {
