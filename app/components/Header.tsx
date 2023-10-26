@@ -20,11 +20,11 @@ const Header = () => {
   }
   // console.log(session)
   return (
-        <div className='w-full p-2 border-2 border-slate-600 rounded-md my-2  flex justify-between items-center'>
+        <div className='w-full px-4 py-1 border-2 border-slate-600 rounded-md my-2  flex justify-between items-center'>
             <h1>TipTap Notes</h1>
             <div className='flex items-center' >
               <Profile/>
-              <button className='btn btn-neutral ' onClick={handleSignin} >
+              <button className='btn btn-ghost' onClick={handleSignin} >
               {status === 'authenticated' ? 'Sign out' : 'Sign in'}
             </button>
             </div>

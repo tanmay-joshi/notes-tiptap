@@ -6,12 +6,14 @@ import SpacesTabs from "./components/SpacesTabs";
 
 export default function Home() {
 
-  const {data:session } = useSession()
+  const {data:session, status } = useSession()
 
   return (
     <main className="p-4">
       <Header/>
-      { session ?  <SpacesTabs/> : <p>You are signed out</p> }
+      { status ==="authenticated" ?  <SpacesTabs/> 
+      : status == "unauthenticated" ? <p>Sign in to see your notes</p>
+      : <p>loading...</p> }
     </main>
   )
 }
