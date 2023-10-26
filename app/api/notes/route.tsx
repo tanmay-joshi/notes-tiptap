@@ -6,9 +6,11 @@ import { NextRequest, NextResponse } from "next/server";
 export const GET =  async (req:NextRequest, res:NextResponse) => {
     const url = new URL(req.nextUrl)
     const userid = url.searchParams.get('userid') || ''
+    const spaceid = url.searchParams.get('spaceid') || ''
     const allnotes = await prisma.note.findMany({
         where: {
-            ownerId: userid
+            spaceId: spaceid,
+            ownerId: userid,
         },
         })
     return NextResponse.json(allnotes)
@@ -16,12 +18,15 @@ export const GET =  async (req:NextRequest, res:NextResponse) => {
 
 export const PUT = async (req:NextRequest, res:NextResponse) => {
     const body = await req.json()
+    const url = new URL(req.nextUrl)
+    const userid = url.searchParams.get('userid') || ''
     const updatedNote = await prisma.note.update({
         where: {
             id: body.id
         },
         data: {
-            content: body.content
+            content: body.content,
+            title: body.title
         }
     })
     return NextResponse.json(updatedNote)

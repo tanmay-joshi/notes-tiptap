@@ -37,14 +37,15 @@ const Tiptap = (props:Props) => {
         body: JSON.stringify({
           id: props.id,
           content: editor?.getJSON(),
+          title: title
         }),
         headers: {
           'Content-Type': 'application/json'
         },
         method: 'PUT'
       })
-      const newNote = await res.json().then(updatenotestate)
-      return newNote
+      const updatedNote = await res.json().then(updatenotestate)
+      return updatedNote
     }
     else if (props.newNote) {
       console.log('saving new note', props.spaceid, "``````", userid)

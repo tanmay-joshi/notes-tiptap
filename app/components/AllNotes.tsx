@@ -14,7 +14,7 @@ const AllNotes = (props:Props) => {
 
     useEffect(() => {
         const getAllNotes = async () => {
-            const res = await fetch(`/api/notes?userid=${session?.user?.email}?spaceid=${props.spaceid}`)
+            const res = await fetch(`/api/notes?userid=${session?.user?.email}&spaceid=${props.spaceid}`)
             const notes = await res.json()
             setNotes(notes)
         }
@@ -26,7 +26,7 @@ const AllNotes = (props:Props) => {
         <h1>All Notes</h1>
         <NewNote spaceid={props.spaceid}/>
         {notes.map((note: any) => (
-            <Note note={note} key={note.id}/>
+            <Note spaceid={props.spaceid} note={note} key={note.id}/>
         )
         )}
     </div>
