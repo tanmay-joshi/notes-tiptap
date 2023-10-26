@@ -24,7 +24,7 @@ const Header = () => {
             <h1>TipTap Notes</h1>
             <div className='flex items-center' >
               <Profile/>
-              <button className='btn btn-ghost' onClick={handleSignin} >
+              <button className='btn btn-ghost btn-xs' onClick={handleSignin} >
               {status === 'authenticated' ? 'Sign out' : 'Sign in'}
             </button>
             </div>

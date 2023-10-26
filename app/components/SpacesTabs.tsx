@@ -29,17 +29,33 @@ const SpacesTabs = () => {
         getAllSpaces()
     }, [session])
 
+    const deleteSpace = async (index:string) => {
+        const res = await fetch(`/api/spaces`, {
+        body: JSON.stringify({
+          id: index
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'DELETE'
+      })
+      const deletedSpace = await res.json()
+      setAllSpaces(prevspaces => prevspaces?.filter((space:space) => (space.id !== deletedSpace.id)))
+      return deletedSpace
+    }
+
   return (
     <div>
         <div className='flex gap-4 items-center'>
             <div className='tabs tabs-boxed grow' >
                 {allspaces?.map((space, index) => (
-                    <a key={index} className={`tab tab-lg ${activeTab === index ? 'tab-active' : ''}`} onClick={() => updateActiveTab(index)}>
+                    <a key={index} className={`tab tab-lg flex gap-2 items-center ${activeTab === index ? 'tab-active' : ''}`} onClick={() => updateActiveTab(index)}>
                         <span className='tab-content'>{space.name}</span>
+                        { activeTab === index ? <span className='tab-close' onClick={()=>deleteSpace(allspaces[index].id)}>x</span> : null}
                     </a>
                 ))}
             </div>
-            <button className='tab btn btn-neutral' onClick={toggleNewSpaceForm} >New Space</button>
+            <button className='tab btn btn-ghost btn-xs' onClick={toggleNewSpaceForm} >New Space</button>
         </div>
         <div>
             { toggleform ? <NewSpace setspaces={setAllSpaces} toggleform={setToggleForm} /> : null }

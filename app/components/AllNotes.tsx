@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import Note from './Note'   
 import NewNote from './NewNote'
 import { useSession } from 'next-auth/react'
 import { note } from '@prisma/client'

@@ -68,7 +68,7 @@ const NewNote = (props:Props) => {
           <button onClick={createnote} className='btn btn-ghost btn-xs' >create new note</button>
           <button onClick={discardnewnote} className='btn btn-ghost btn-xs' >Discard</button>
         </div> : 
-        <button className='btn btn-neutral' onClick={()=> { setNewNote(!newNote) }} >New Note</button>
+        <button className='btn btn-neutral btn-md' onClick={()=> { setNewNote(!newNote) }} >New Note</button>
       }
     </div>
   )

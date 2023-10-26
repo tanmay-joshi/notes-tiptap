@@ -25,3 +25,13 @@ export const POST = async (req:NextRequest, res:NextResponse) => {
     })
     return NextResponse.json(newSpace)
 }
+
+export const DELETE = async (req:NextRequest, res:NextResponse) => {
+    const reqbody = await req.json()
+    const deletedSpace = await prisma.space.delete({
+        where: {
+            id: reqbody.id,
+        },
+    })
+    return NextResponse.json(deletedSpace)
+}
