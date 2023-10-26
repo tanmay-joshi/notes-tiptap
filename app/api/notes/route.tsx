@@ -48,3 +48,13 @@ export const POST = async (req:NextRequest, res:NextResponse) => {
     })
     return NextResponse.json(newNote)
 }
+
+export const DELETE = async (req:NextRequest, res:NextResponse) => {
+    const body =  await req.json()
+    const deletedNote = await prisma.note.delete({
+        where: {
+            id: body.id
+        }
+    })
+    return NextResponse.json(deletedNote)
+}

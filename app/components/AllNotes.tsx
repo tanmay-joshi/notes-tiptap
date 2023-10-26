@@ -23,8 +23,7 @@ const AllNotes = (props:Props) => {
 
   return (
     <div className='flex flex-col content-start items-center gap-4 py-4' >
-        <h1>All Notes</h1>
-        <NewNote spaceid={props.spaceid}/>
+        <NewNote setnotes={setNotes} spaceid={props.spaceid}/>
         {notes.map((note: any) => (
             <Note spaceid={props.spaceid} note={note} key={note.id}/>
         )

@@ -1,4 +1,5 @@
 'use client'
+import { note } from '@prisma/client'
 import { JsonValue } from '@prisma/client/runtime/library'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -11,7 +12,8 @@ type Props = {
   id: string,
   title: string,
   newNote: boolean,
-  spaceid: string
+  spaceid: string,
+  setnotes?: React.Dispatch<React.SetStateAction<any>>
 }
 
 const Tiptap = (props:Props) => {
@@ -48,7 +50,7 @@ const Tiptap = (props:Props) => {
       return updatedNote
     }
     else if (props.newNote) {
-      console.log('saving new note', props.spaceid, "``````", userid)
+      // console.log('saving new note', props.spaceid, "``````", userid)
       const res = await fetch(`/api/notes?userid=${userid}&spaceid=${props.spaceid}`, {
         body: JSON.stringify({
           content: editor?.getJSON(),
@@ -64,7 +66,9 @@ const Tiptap = (props:Props) => {
         await setTitle(props.title)
         await setEditable(false);
         await editor?.setEditable(false);
-        router.refresh()})
+        // router.refresh()
+      })
+      props.setnotes?((prev:note[])=>[...prev, newNote]):null
       return newNote
     }
   }
@@ -90,6 +94,22 @@ const Tiptap = (props:Props) => {
       }
   })
 
+  const deleteNote = async () => {
+    if (!props.newNote) {
+      const res = await fetch(`/api/notes`, {
+        body: JSON.stringify({
+          id: props.id
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'DELETE'
+      })
+      const deletedNote = await res.json()
+      return deletedNote
+    }
+  }
+
   useEffect(()=>{
     if (props.newNote)  {editor?.setEditable(true); setEditable(true); setTitle("Title")} else {setEditable(false)}
   },[editor, props.newNote])
@@ -101,6 +121,7 @@ const Tiptap = (props:Props) => {
         <button onClick={()=>{ if(!editable) {editor?.setEditable(!editable); setEditable(!editable);} else{saveNote()}}} >
           {editable ? 'Save' : 'Edit'}
         </button>
+        <button onClick={deleteNote} >Delete</button>
         {
           editable ? <button onClick={()=>{ if(editable) {discardChanges()}}} >
           Discard

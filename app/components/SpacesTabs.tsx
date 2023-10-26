@@ -42,7 +42,7 @@ const SpacesTabs = () => {
             <button className='tab btn btn-neutral' onClick={toggleNewSpaceForm} >New Space</button>
         </div>
         <div>
-            { toggleform ? <NewSpace /> : null }
+            { toggleform ? <NewSpace setspaces={setAllSpaces} toggleform={setToggleForm} /> : null }
         </div>
         <div>
            { allspaces ? <AllNotes spaceid={allspaces[activeTab]?.id}/> : <p>loading</p> }

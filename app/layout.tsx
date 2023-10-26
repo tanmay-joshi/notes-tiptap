@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html data-theme="retro" lang="en">
+    <html data-theme="cupcake" lang="en">
       <body className={inter.className}>
         <AuthProvider>
           {children}

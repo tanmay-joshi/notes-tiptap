@@ -12,8 +12,6 @@ export default function Home() {
     <main className="p-4">
       <Header/>
       { session ?  <SpacesTabs/> : <p>You are signed out</p> }
-     
-      {/* <HomeTabs/> */}
     </main>
   )
 }

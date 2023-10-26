@@ -2,7 +2,12 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
-const NewSpace = () => {
+type Props = {
+    setspaces: React.Dispatch<React.SetStateAction<any>>,
+    toggleform: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const NewSpace = (props:Props) => {
     const {data: session} = useSession()
 
     const router = useRouter()
@@ -18,8 +23,10 @@ const NewSpace = () => {
             body: JSON.stringify({name:name}),
         })
         const newSpace = await res.json()
-        console.log(newSpace)
-        router.refresh()
+        // console.log(newSpace)
+        props.setspaces((prevSpaces: any) => [...prevSpaces, newSpace])
+        props.toggleform(false)
+        // router.refresh()
     }
         return (
     <div>

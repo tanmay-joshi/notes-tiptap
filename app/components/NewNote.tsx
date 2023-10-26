@@ -2,7 +2,8 @@ import React from 'react'
 import Tiptap from './Tiptap'
 
 type Props = {
-  spaceid: string
+  spaceid: string,
+  setnotes: React.Dispatch<React.SetStateAction<any>>
 }
 
 const NewNote = (props:Props) => {
@@ -21,7 +22,7 @@ const NewNote = (props:Props) => {
         {newNote ? 'Close' : 'New Note'}
       </button>
       {
-        newNote ? <Tiptap spaceid={props.spaceid} newNote content={note.content} id={note.id} title={note.title} /> : null
+        newNote ? <Tiptap spaceid={props.spaceid} newNote setnotes={props.setnotes} content={note.content} id={note.id} title={note.title} /> : null
       }
     </div>
   )
