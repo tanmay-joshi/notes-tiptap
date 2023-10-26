@@ -3,6 +3,7 @@ import Note from './Note'
 import NewNote from './NewNote'
 import { useSession } from 'next-auth/react'
 import { note } from '@prisma/client'
+import Tiptap from './Tiptap'
 
 type Props = {
     spaceid: string
@@ -25,8 +26,8 @@ const AllNotes = (props:Props) => {
   return (
     <div className='flex flex-col content-start items-center gap-4 py-4' >
         <NewNote setnotes={setNotes} spaceid={props.spaceid}/>
-        {notes.map((note: any) => (
-            <Note spaceid={props.spaceid} note={note} key={note.id}/>
+        {notes.map((note: note) => (
+            <Tiptap key={note.id} note={note} setnotes={setNotes} spaceid={props.spaceid} />
         )
         )}
     </div>

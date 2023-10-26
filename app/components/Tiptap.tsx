@@ -1,24 +1,20 @@
 'use client'
 import { note } from '@prisma/client'
-import { JsonValue } from '@prisma/client/runtime/library'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import React, { useEffect } from 'react'
+import React from 'react'
 
 type Props = {
-  content: JsonValue,
-  id: string,
-  title: string,
   spaceid: string,
+  note: note,
+  setnotes: React.Dispatch<React.SetStateAction<note[]>>
 }
 
 const Tiptap = (props:Props) => {
-  const datajson = props.content as string;
   const [editable, setEditable] = React.useState(false)
-  // const [initialContent, setInitialContent] = React.useState(datajson)
-  const [title, setTitle] = React.useState(props.title)
+  const [title, setTitle] = React.useState(props.note.title)
 
   const router = useRouter()
 
@@ -34,7 +30,7 @@ const Tiptap = (props:Props) => {
   const saveNote = async () => {
         const res = await fetch(`/api/notes?userid=${userid}`, {
         body: JSON.stringify({
-          id: props.id,
+          id: props.note.id,
           content: editor?.getJSON(),
           title: title
         }),
@@ -47,12 +43,26 @@ const Tiptap = (props:Props) => {
       return updatedNote
   }
 
+  const deleteNote = async () => {
+    const res = await fetch(`/api/notes`, {
+      body: JSON.stringify({
+        id: props.note.id
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'DELETE'
+    })
+    const deletedNote = await res.json()
+    props.setnotes((prevnotes:note[]) => prevnotes.filter((note:note) => note.id !== deletedNote.id))
+    return deletedNote
+  }
+
   const discardChanges = async () => {
-    await editor?.commands.setContent(datajson)
     await setEditable(false)
     await editor?.setEditable(false)
-    await setTitle(props.title)
-    console.log('Discarded', editable)
+    await setTitle(props.note.title)
+    await editor?.commands.setContent(props.note.content as string)
   }
 
   const editor = useEditor({
@@ -60,7 +70,7 @@ const Tiptap = (props:Props) => {
           StarterKit,
       ],
       editable: editable,
-      content: datajson ,
+      content: props.note.content as string,
       editorProps: {
         attributes: {
           class: 'prose dark:prose-invert w-screen p-4 rounded-md flex-grow focus:outline-none'
@@ -68,37 +78,19 @@ const Tiptap = (props:Props) => {
       }
   })
 
-  const deleteNote = async () => {
-      const res = await fetch(`/api/notes`, {
-        body: JSON.stringify({
-          id: props.id
-        }),
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        method: 'DELETE'
-      })
-      const deletedNote = await res.json()
-      return deletedNote
-  }
-
-  useEffect(()=>{
-    editor?.setEditable(true); setEditable(true); setTitle("Title")}
-  ,[editor])
-
   return (
     <div className='px-2' >
       <div className='flex content-between items-center' >
         <input className='grow' value={title} onChange={(e)=>{setTitle(e.target.value)}} disabled={!editable} />
-        <button onClick={()=>{ if(!editable) {editor?.setEditable(!editable); setEditable(!editable);} else{saveNote()}}} >
+        <button className='btn btn-ghost btn-xs' onClick={()=>{ if(!editable) {editor?.setEditable(!editable); setEditable(!editable);} else{saveNote()}}} >
           {editable ? 'Save' : 'Edit'}
         </button>
-        <button onClick={deleteNote} >Delete</button>
         {
-          editable ? <button onClick={()=>{ if(editable) {discardChanges()}}} >
+          editable ? <button className='btn btn-ghost btn-xs' onClick={()=>{ if(editable) {discardChanges()}}} >
           Discard
         </button> : null
         }
+        <button className='btn btn-ghost btn-xs' onClick={deleteNote} >Delete</button>
       </div>
         <EditorContent editor={editor} />
     </div>
