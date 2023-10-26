@@ -51,8 +51,8 @@ model note {
   content       Json
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-  space         space    @relation(fields: [spaceId], references: [id])
-  spaceId       String
+  space         space?   @relation(fields: [spaceId], references: [id])
+  spaceId       String?
   owner         user     @relation(fields: [ownerId], references: [id])
   ownerId       String
   collaborators user[]   @relation("noteCollaborators")
