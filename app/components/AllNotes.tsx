@@ -23,12 +23,14 @@ const AllNotes = (props:Props) => {
     },[session, props.spaceid])
 
   return (
-    <div className='flex flex-col content-start items-center gap-4 py-4' >
+    <div className='flex flex-col justify-start items-center gap-4 py-4' >
         <NewNote setnotes={setNotes} spaceid={props.spaceid}/>
+        <div className='flex flex-wrap justify-start items-stretch content-stretch gap-4' >
         {notes.map((note: note) => (
             <Tiptap key={note.id} note={note} setnotes={setNotes} spaceid={props.spaceid} />
         )
         )}
+        </div>
     </div>
   )
 }

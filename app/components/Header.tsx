@@ -20,7 +20,7 @@ const Header = () => {
   }
   // console.log(session)
   return (
-        <div className='w-full px-4 py-1 border-2 border-slate-600 rounded-md my-2  flex justify-between items-center'>
+        <div className='w-full px-4 py-1 border-2 border-slate-200 rounded-md my-2  flex justify-between items-center'>
             <h1>TipTap Notes</h1>
             <div className='flex items-center' >
               <Profile/>

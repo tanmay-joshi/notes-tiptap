@@ -29,10 +29,10 @@ const SpacesTabs = () => {
         getAllSpaces()
     }, [session])
 
-    const deleteSpace = async (index:string) => {
+    const deleteSpace = async (id:string,index:number) => {
         const res = await fetch(`/api/spaces`, {
         body: JSON.stringify({
-          id: index
+          id: id
         }),
         headers: {
           'Content-Type': 'application/json'
@@ -41,6 +41,7 @@ const SpacesTabs = () => {
       })
       const deletedSpace = await res.json()
       setAllSpaces(prevspaces => prevspaces?.filter((space:space) => (space.id !== deletedSpace.id)))
+      index == 0 ? updateActiveTab(index) : updateActiveTab(index - 1)
       return deletedSpace
     }
 
@@ -49,9 +50,14 @@ const SpacesTabs = () => {
         <div className='flex gap-4 items-center'>
             <div className='tabs tabs-boxed grow' >
                 {allspaces?.map((space, index) => (
-                    <a key={index} className={`tab tab-lg flex gap-2 items-center ${activeTab === index ? 'tab-active' : ''}`} onClick={() => updateActiveTab(index)}>
+                    <a key={index} className={`tab tab-lg flex gap-2 items-center ${activeTab === index ? 'tab-active' : ''}`} onClick={() => setActiveTab(index)}>
+                        { activeTab == index ? <div className="dropdown ">
+                            <label tabIndex={0}> ≡ </label>
+                            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                                <li><a onClick={()=>deleteSpace(allspaces[index].id,index)}>Delete</a></li>
+                            </ul>
+                            </div> : null }
                         <span className='tab-content'>{space.name}</span>
-                        { activeTab === index ? <span className='tab-close' onClick={()=>deleteSpace(allspaces[index].id)}>x</span> : null}
                     </a>
                 ))}
             </div>

@@ -34,7 +34,7 @@ const NewSpace = (props:Props) => {
         <form onSubmit={createSpace} >
             <label htmlFor="name">Name</label>
             <input type="text" name="name" value={name} onChange={updateSpaceName} id="name"/>
-            <button type='submit' className='btn btn-neutral'>Create Space </button>
+            <button type='submit' className='btn btn-ghost btn-xs'>Create Space </button>
         </form>
     </div>
   )

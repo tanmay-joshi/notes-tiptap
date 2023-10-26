@@ -73,13 +73,13 @@ const Tiptap = (props:Props) => {
       content: props.note.content as string,
       editorProps: {
         attributes: {
-          class: 'prose dark:prose-invert w-screen p-4 rounded-md flex-grow focus:outline-none'
+          class: 'prose dark:prose-invert w-screen rounded-md focus:outline-none'
         }
       }
   })
 
   return (
-    <div className='px-2' >
+    <div className='p-4 rounded-md flex flex-col items-stretch border border-slate-200 gap-2 ' >
       <div className='flex content-between items-center' >
         <input className='grow' value={title} onChange={(e)=>{setTitle(e.target.value)}} disabled={!editable} />
         <button className='btn btn-ghost btn-xs' onClick={()=>{ if(!editable) {editor?.setEditable(!editable); setEditable(!editable);} else{saveNote()}}} >
