@@ -10,7 +10,8 @@ type Props = {
   content: JsonValue,
   id: string,
   title: string,
-  newNote: boolean
+  newNote: boolean,
+  spaceid: string
 }
 
 const Tiptap = (props:Props) => {
@@ -46,7 +47,8 @@ const Tiptap = (props:Props) => {
       return newNote
     }
     else if (props.newNote) {
-      const res = await fetch('/api/notes', {
+      console.log('saving new note', props.spaceid, "``````", userid)
+      const res = await fetch(`/api/notes?userid=${userid}&spaceid=${props.spaceid}`, {
         body: JSON.stringify({
           content: editor?.getJSON(),
           title: title

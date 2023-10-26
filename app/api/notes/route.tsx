@@ -32,6 +32,7 @@ export const POST = async (req:NextRequest, res:NextResponse) => {
     const userid = url.searchParams.get('userid') || ''
     const spaceid = url.searchParams.get('spaceid') || ''
     const body = await req.json()
+    console.log("post request to create note", userid, spaceid)
     const newNote = await prisma.note.create({
         data: {
             title: body.title,

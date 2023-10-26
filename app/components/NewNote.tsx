@@ -1,8 +1,11 @@
 import React from 'react'
 import Tiptap from './Tiptap'
-import { note } from '@prisma/client'
 
-const NewNote = () => {
+type Props = {
+  spaceid: string
+}
+
+const NewNote = (props:Props) => {
 
   const [newNote, setNewNote] = React.useState(false)
 
@@ -18,7 +21,7 @@ const NewNote = () => {
         {newNote ? 'Close' : 'New Note'}
       </button>
       {
-        newNote ? <Tiptap newNote content={note.content} id={note.id} title={note.title} /> : null
+        newNote ? <Tiptap spaceid={props.spaceid} newNote content={note.content} id={note.id} title={note.title} /> : null
       }
     </div>
   )
