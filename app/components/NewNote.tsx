@@ -1,10 +1,7 @@
-import React, { use, useEffect } from 'react'
-import Tiptap from './Tiptap'
-import { Editor, EditorContent, useEditor } from '@tiptap/react'
+import React from 'react'
+import {  EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { title } from 'process'
 import { useSession } from 'next-auth/react'
-import { note } from '@prisma/client'
 
 type Props = {
   spaceid: string,
