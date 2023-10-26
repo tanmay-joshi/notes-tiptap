@@ -21,7 +21,7 @@ const Header = () => {
   // console.log(session)
   return (
         <div className='w-full p-2 border-2 border-slate-600 rounded-md my-2  flex justify-between items-center'>
-            <h1>Your personal space</h1>
+            <h1>TipTap Notes</h1>
             <div className='flex items-center' >
               <Profile/>
               <button className='btn btn-neutral ' onClick={handleSignin} >

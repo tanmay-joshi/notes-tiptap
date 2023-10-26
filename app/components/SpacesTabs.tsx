@@ -3,9 +3,15 @@ import { space } from '@prisma/client'
 import { useSession } from 'next-auth/react'
 import React, { useEffect } from 'react'
 import AllNotes from './AllNotes'
+import NewSpace from './NewSpace'
 
 const SpacesTabs = () => {
     const {data:session } = useSession()
+
+    const [toggleform, setToggleForm] = React.useState(false)
+    const toggleNewSpaceForm = () => {
+        setToggleForm(!toggleform)
+    }
 
     const [activeTab, setActiveTab] = React.useState(0)
     const updateActiveTab = (index: number) => {
@@ -25,12 +31,18 @@ const SpacesTabs = () => {
 
   return (
     <div>
-        <div className='tabs tabs-boxed' >
-            {allspaces?.map((space, index) => (
-                <a key={index} className={`tab tab-lg ${activeTab === index ? 'tab-active' : ''}`} onClick={() => updateActiveTab(index)}>
-                    <span className='tab-content'>{space.name}</span>
-                </a>
-            ))}
+        <div className='flex gap-4 items-center'>
+            <div className='tabs tabs-boxed grow' >
+                {allspaces?.map((space, index) => (
+                    <a key={index} className={`tab tab-lg ${activeTab === index ? 'tab-active' : ''}`} onClick={() => updateActiveTab(index)}>
+                        <span className='tab-content'>{space.name}</span>
+                    </a>
+                ))}
+            </div>
+            <button className='tab btn btn-neutral' onClick={toggleNewSpaceForm} >New Space</button>
+        </div>
+        <div>
+            { toggleform ? <NewSpace /> : null }
         </div>
         <div>
            { allspaces ? <AllNotes spaceid={allspaces[activeTab]?.id}/> : <p>loading</p> }

@@ -7,11 +7,7 @@ const NewSpace = () => {
 
     const router = useRouter()
 
-    const [showForm, setShowForm] = React.useState(false)
-
     const [name, setName] = React.useState('')
-
-    const toggleForm = () => {setShowForm(!showForm); console.log(router) }
 
     const updateSpaceName = (e: any) => setName(e.target.value)
 
@@ -23,11 +19,8 @@ const NewSpace = () => {
         })
         const newSpace = await res.json()
         console.log(newSpace)
-        toggleForm()
         router.refresh()
     }
-
-    if (showForm) {
         return (
     <div>
         <h1>New Space</h1>
@@ -38,11 +31,6 @@ const NewSpace = () => {
         </form>
     </div>
   )
-        } else {
-        return (
-            <button className='btn btn-neutral' onClick={toggleForm} >New Space </button>
-        )
-        }
 }
 
 export default NewSpace
