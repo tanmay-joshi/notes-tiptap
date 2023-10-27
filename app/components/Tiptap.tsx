@@ -9,7 +9,7 @@ import React from 'react'
 type Props = {
   spaceid: string,
   note: note,
-  setnotes: React.Dispatch<React.SetStateAction<note[]>>
+  setnotes?: React.Dispatch<React.SetStateAction<note[]>>
 }
 
 const Tiptap = (props:Props) => {
@@ -54,7 +54,7 @@ const Tiptap = (props:Props) => {
       method: 'DELETE'
     })
     const deletedNote = await res.json()
-    props.setnotes((prevnotes:note[]) => prevnotes.filter((note:note) => note.id !== deletedNote.id))
+    props.setnotes ? props.setnotes((prevnotes:note[]) => prevnotes.filter((note:note) => note.id !== deletedNote.id)) : null
     return deletedNote
   }
 
